@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using TiledSharp;
 
 namespace TiledSharp_MonoGame_Example
 {
@@ -13,14 +12,7 @@ namespace TiledSharp_MonoGame_Example
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
-        TmxMap map;
-        Texture2D tileset;
-
-        int tileWidth;
-        int tileHeight;
-        int tilesetTilesWide;
-        int tilesetTilesHigh;
+        TileMap tmap;
 
         public Game1()
         {
@@ -37,7 +29,6 @@ namespace TiledSharp_MonoGame_Example
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -50,14 +41,7 @@ namespace TiledSharp_MonoGame_Example
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            map = new TmxMap("Content/exampleMap.tmx");
-            tileset = Content.Load<Texture2D>(map.Tilesets[0].Name.ToString());
-
-            tileWidth = map.Tilesets[0].TileWidth;
-            tileHeight = map.Tilesets[0].TileHeight;
-
-            tilesetTilesWide = tileset.Width / tileWidth;
-            tilesetTilesHigh = tileset.Height / tileHeight;
+            tmap = new TileMap("Content/exampleMap.tmx", this.Content);
         }
 
         /// <summary>
@@ -92,26 +76,7 @@ namespace TiledSharp_MonoGame_Example
 
             spriteBatch.Begin();
 
-            for (var i = 0; i < map.Layers[0].Tiles.Count; i++) {
-                int gid = map.Layers[0].Tiles[i].Gid;
-
-                // Empty tile, do nothing
-                if (gid == 0) {
-
-                }
-                else {
-                    int tileFrame = gid - 1;
-                    int column = tileFrame % tilesetTilesWide;
-                    int row = (tileFrame+1 > tilesetTilesWide) ? tileFrame - column * tilesetTilesWide : 0;
-
-                    float x = (i % map.Width) * map.TileWidth;
-                    float y = (float)Math.Floor(i / (double)map.Width) * map.TileHeight;
-
-                    Rectangle tilesetRec = new Rectangle(tileWidth * column, tileHeight * row, tileWidth, tileHeight);
-
-                    spriteBatch.Draw(tileset, new Rectangle((int)x, (int)y, tileWidth, tileHeight), tilesetRec, Color.White);
-                }
-            }
+            tmap.Draw(spriteBatch);
 
             spriteBatch.End();
 

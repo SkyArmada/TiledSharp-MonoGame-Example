@@ -41,6 +41,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TileMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK">
@@ -52,7 +53,7 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="TiledSharp">
-      <HintPath>..\..\..\Libraries\TiledSharp.dll</HintPath>
+      <HintPath>..\..\TiledSharp-master\TiledSharp\bin\Debug\TiledSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
